@@ -1,0 +1,109 @@
+# NeuralForge AutoML Configuration
+# This configuration file defines the training parameters and architecture search space
+
+# Training Configuration
+training:
+  dataPath: "./testdata.csv"
+  outputPath: "./models/neuralforge_model.bin"
+  epochs: 100
+  validationSplit: 0.2
+  earlyStoppingPatience: 10
+  
+# Neural Architecture Configuration
+architecture:
+  layers: [128, 64, 32]
+  activation: "relu"
+  learningRate: 0.001
+  batchSize: 32
+  dropout: 0.3
+  optimizer: "adam"
+
+# Auto Feature Engineering
+autoFeatureEngineering:
+  enabled: true
+  polynomialDegree: 2
+  interactions: true
+  scaling: "standard"  # Options: standard, minmax, robust
+  featureSelection:
+    enabled: true
+    method: "mutual_info"  # Options: mutual_info, chi2, f_classif
+    threshold: 0.05
+
+# Evolutionary Algorithm Configuration
+evolution:
+  populationSize: 50
+  generations: 100
+  tournamentSize: 5
+  mutationRate: 0.1
+  crossoverRate: 0.8
+  elitism: 5  # Number of best individuals to keep
+  
+# Architecture Search Space
+searchSpace:
+  layers:
+    min: 2
+    max: 5
+  neuronsPerLayer:
+    min: 32
+    max: 512
+  activations:
+    - relu
+    - tanh
+    - sigmoid
+    - elu
+    - leaky_relu
+  learningRate:
+    min: 0.0001
+    max: 0.1
+    log_scale: true
+  dropout:
+    min: 0.0
+    max: 0.5
+  optimizers:
+    - adam
+    - sgd
+    - rmsprop
+
+# Meta-Learning Configuration
+metaLearning:
+  enabled: true
+  warmStart: true
+  transferLearning: true
+  knowledgeBase: "./knowledge/past_experiments.db"
+  similarityThreshold: 0.7
+
+# Zero-Downtime Deployment
+deployment:
+  enabled: true
+  strategy: "blue_green"  # Options: blue_green, canary, rolling
+  healthCheckInterval: 30  # seconds
+  rollbackOnFailure: true
+  modelVersioning: true
+  
+# Monitoring and Logging
+monitoring:
+  enabled: true
+  metricsInterval: 10  # seconds
+  logLevel: "info"  # Options: debug, info, warning, error
+  saveCheckpoints: true
+  checkpointInterval: 1000  # steps
+  tensorboard:
+    enabled: true
+    logDir: "./logs/tensorboard"
+
+# Resource Management
+resources:
+  gpuEnabled: true
+  maxGPUMemory: "4GB"
+  numWorkers: 4
+  distributedTraining: false
+  mixedPrecision: true
+
+# Experiment Tracking
+experiment:
+  name: "neuralforge_automl"
+  tags:
+    - automl
+    - evolution
+    - meta-learning
+  description: "Autonomous ML framework with genetic algorithm evolution"
